@@ -1,0 +1,156 @@
+<!doctype html>
+<html lang="ru">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="color-scheme" content="light dark" />
+    <title>Таймер до важного события</title>
+    <link rel="stylesheet" href="./css/style.css" />
+  </head>
+  <body>
+    <header class="hero">
+      <div class="container hero__inner">
+        <div class="hero__text">
+          <h1 class="hero__title">Таймер до важного события</h1>
+          <p class="hero__subtitle">Выберите дату — и вы увидите, сколько осталось.</p>
+        </div>
+      </div>
+    </header>
+
+    <main class="container main">
+      <section class="card timer-card" aria-labelledby="eventTitle">
+        <h2 class="card__title" id="eventTitle">Настройка события</h2>
+
+        <form id="eventForm" class="event-form" autocomplete="off">
+          <div class="field">
+            <label for="eventSelect" class="label">Тип события</label>
+            <select id="eventSelect" class="input" required>
+              <option value="birthday">День рождения</option>
+              <option value="vacations">Каникулы</option>
+              <option value="newyear">Новый год</option>
+              <option value="custom">Своё событие</option>
+            </select>
+          </div>
+
+          <div class="field" id="customNameField">
+            <label for="customName" class="label">Название события</label>
+            <input id="customName" class="input" type="text" placeholder="Например: День открытых дверей" />
+          </div>
+
+          <div class="field">
+            <label for="eventDate" class="label">Дата события</label>
+            <input id="eventDate" class="input" type="date" required />
+          </div>
+
+          <div class="form-actions">
+            <button class="btn btn--primary" type="button" id="applyBtn">
+              Подтвердить событие
+            </button>
+            <button class="btn btn--ghost" type="button" id="clearBtn" title="Очистить сохранённые настройки">
+              Сбросить
+            </button>
+          </div>
+
+          <div class="notice" id="statusMessage" role="status" aria-live="polite"></div>
+        </form>
+
+        <div class="divider" aria-hidden="true"></div>
+
+        <div class="event-summary" aria-live="polite">
+          <div class="event-summary__top">
+            <div class="event-summary__titlewrap">
+              <div class="badge" id="activeEventBadge">Сейчас:</div>
+              <h3 class="event-summary__name" id="eventName">—</h3>
+            </div>
+            <div class="event-summary__date" id="eventDateLabel">—</div>
+          </div>
+
+          <div class="countdown" aria-label="Обратный отсчёт">
+            <div class="unit">
+              <div class="unit__value digit" id="daysValue">00</div>
+              <div class="unit__label">дни</div>
+            </div>
+            <div class="unit">
+              <div class="unit__value digit" id="hoursValue">00</div>
+              <div class="unit__label">часа</div>
+            </div>
+            <div class="unit">
+              <div class="unit__value digit" id="minutesValue">00</div>
+              <div class="unit__label">минуты</div>
+            </div>
+            <div class="unit">
+              <div class="unit__value digit" id="secondsValue">00</div>
+              <div class="unit__label">секунды</div>
+            </div>
+          </div>
+
+          <p class="hint" id="timerHint">
+            Таймер обновляется автоматически каждую секунду.
+          </p>
+        </div>
+      </section>
+
+      <aside class="side">
+        <section class="card content-card" aria-labelledby="factTitle">
+          <h2 class="card__title" id="factTitle">Факт дня</h2>
+          <p class="content-text" id="factText">Загрузка...</p>
+        </section>
+
+        <section class="card image-card" aria-labelledby="imageTitle">
+          <h2 class="card__title" id="imageTitle">Картинка дня</h2>
+          <div class="image-frame">
+            <img id="dayImage" alt="Картинка дня" loading="lazy" />
+          </div>
+          <div class="image-caption" id="imageCaption">—</div>
+        </section>
+
+        <section class="card quote-card" aria-labelledby="quoteTitle">
+          <h2 class="card__title" id="quoteTitle">Фраза дня</h2>
+          <blockquote class="quote" id="quoteText">Загрузка...</blockquote>
+        </section>
+      </aside>
+    </main>
+
+    <footer class="site-footer" role="contentinfo" aria-label="Подвал сайта">
+      <div class="site-footer__wave" aria-hidden="true"></div>
+      <div class="container site-footer__inner">
+        <div class="site-footer__brand">
+          <a class="site-footer__title" href="index.html">Таймер до важного события</a>
+          <p class="site-footer__tagline">Школьный проект · HTML, CSS и JavaScript</p>
+        </div>
+        <div class="site-footer__divider" aria-hidden="true"></div>
+        <div class="site-footer__row">
+          <p class="site-footer__copy">
+            © <span id="footerYear">2026</span>
+            <span class="site-footer__copy-sep">·</span>
+            <span class="site-footer__copy-text">Все права защищены</span>
+          </p>
+          <p class="site-footer__student">
+            Ученик:
+            <span class="site-footer__student-name" title="Замените на своё имя">Имя Фамилия</span>
+          </p>
+        </div>
+      </div>
+    </footer>
+
+    <!-- Модальное окно подтверждения -->
+    <div class="modal" id="confirmModal" aria-hidden="true">
+      <div class="modal__backdrop" data-close="true"></div>
+      <div class="modal__panel" role="dialog" aria-modal="true" aria-labelledby="confirmTitle">
+        <h2 class="modal__title" id="confirmTitle">Подтвердить событие</h2>
+        <p class="modal__text" id="confirmText"></p>
+        <div class="modal__actions">
+          <button class="btn btn--primary" type="button" id="confirmYes">Да, начать</button>
+          <button class="btn btn--ghost" type="button" id="confirmNo" data-close="true">Отмена</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Обычные скрипты (важно для запуска при открытии index.html двойным кликом) -->
+    <script src="./js/timer.js"></script>
+    <script src="./js/storage.js"></script>
+    <script src="./js/dayContent.js"></script>
+    <script src="./js/app.js"></script>
+  </body>
+</html>
+
